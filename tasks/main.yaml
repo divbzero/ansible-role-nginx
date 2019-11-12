@@ -1,0 +1,30 @@
+- name: update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+- name: install
+  apt: name=nginx
+  become: yes
+- name: settings directory
+  synchronize: src={{ nginx_directory }}/ dest=/etc/nginx
+  become: yes
+  notify: restart
+- name: html directory
+  synchronize: src={{ nginx_html_directory }}/ dest=/usr/share/nginx/html delete=yes
+  become: yes
+  notify: restart
+- name: disable sites (1/2)
+  file: path=/etc/nginx/sites-enabled/ state=absent
+  become: yes
+- name: disable sites (2/2)
+  file: path=/etc/nginx/sites-enabled/ state=directory
+  become: yes
+  notify: restart
+- name: enable sites
+  file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
+  loop: "{{ nginx_sites }}" 
+  become: yes
+  notify: restart
+- name: allow ports through ufw
+  ufw: rule=allow port={{ item }} proto=tcp
+  loop: "{{ nginx_ports }}" 
+  become: yes

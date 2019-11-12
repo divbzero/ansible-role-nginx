@@ -1,0 +1,24 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+    server_tokens off;
+
+    root html;
+    index index.html index.htm;
+    error_page 403 404 =404 /error/404.html;
+    error_page 500 501 502 503 504 =500 /error/5xx.html;
+
+    location /error/ {
+        internal;
+    }
+
+    location /\.well-known/ {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ /\. {
+        deny all;
+    }
+}

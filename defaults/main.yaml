@@ -1,0 +1,4 @@
+nginx_directory: nginx
+nginx_html_directory: html
+nginx_sites: [http]
+nginx_ports: [80]
