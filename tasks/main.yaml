@@ -4,6 +4,12 @@
 - name: install
   apt: name=nginx
   become: yes
+- name: install python cryptography
+  apt: name=python-cryptography
+  become: yes
+- name: Diffie-Hellman parameters
+  openssl_dhparam: path={{ nginx_dhparam_path }} size={{ nginx_dhparam_size }}
+  become: yes
 - name: settings directory
   synchronize: src={{ nginx_directory }}/ dest=/etc/nginx owner=no group=no
   become: yes
