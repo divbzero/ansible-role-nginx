@@ -8,8 +8,12 @@
   synchronize: src={{ nginx_directory }}/ dest=/etc/nginx owner=no group=no
   become: yes
   notify: restart
-- name: html directory
+- name: html directory (1/2)
   synchronize: src={{ nginx_html_directory }}/ dest=/usr/share/nginx/html owner=no group=no delete=yes
+  become: yes
+  notify: restart
+- name: html directory (2/2)
+  file: path=/usr/share/nginx/html state=directory owner=www-data group=www-data recurse=yes
   become: yes
   notify: restart
 - name: disable sites (1/2)
