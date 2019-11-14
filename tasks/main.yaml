@@ -5,11 +5,11 @@
   apt: name=nginx
   become: yes
 - name: settings directory
-  synchronize: src={{ nginx_directory }}/ dest=/etc/nginx
+  synchronize: src={{ nginx_directory }}/ dest=/etc/nginx owner=no group=no
   become: yes
   notify: restart
 - name: html directory
-  synchronize: src={{ nginx_html_directory }}/ dest=/usr/share/nginx/html delete=yes
+  synchronize: src={{ nginx_html_directory }}/ dest=/usr/share/nginx/html owner=no group=no delete=yes
   become: yes
   notify: restart
 - name: disable sites (1/2)
