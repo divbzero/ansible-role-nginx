@@ -14,7 +14,7 @@
   openssl_dhparam: path={{ nginx_dhparam_path }} size={{ nginx_dhparam_size }}
   become: yes
 - name: settings directory
-  synchronize: src={{ nginx_directory }}/ dest=/etc/nginx owner=no group=no
+  synchronize: src={{ nginx_directory }}/ dest=/etc/nginx owner=no group=no copy_links=yes
   become: yes
   notify: restart
 - name: html directory (1/2)
